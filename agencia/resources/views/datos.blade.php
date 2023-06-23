@@ -22,6 +22,7 @@
         @endif
 
         <hr>
+        
         @foreach ($marcas as $marca)
             {{ $marca }} <br>
         @endforeach
