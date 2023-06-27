@@ -23,6 +23,7 @@ Route::view('/saludo', 'hola');
 //ruta para ejecutar un proceso (action) closure
 Route::get('/mensaje', function ()
 {
+
     //proceso a ejecutar
     return view('hola');
 });
@@ -41,4 +42,18 @@ Route::get('/datos', function ()
             'marcas'=>$marcas
         ]
     );
+});
+
+Route::view('/inicio', 'inicio');
+Route::view('/formulario', 'formulario');
+Route::post('/proceso', function ()
+{
+    //$nombre = $_POST['nombre'];
+    //capturamos dato enviado por el form
+    //$nombre = request()->post('nombre');
+    //$nombre = request()->input('nombre');
+    //$nombre = request()->nombre;
+    $nombre = request('nombre');
+
+    return view('resultado', [ 'nombre'=>$nombre ]);
 });
