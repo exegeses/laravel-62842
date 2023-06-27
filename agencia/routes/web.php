@@ -33,12 +33,12 @@ Route::get('/datos', function ()
 
     $nombre = 'marcos';
     $marcas = [
-                'Samsung', 'Motorola', 'Adidas','Nike','Puma','Reebook', 'Apple'
-              ];
+        'Samsung', 'Motorola', 'Adidas','Nike','Puma','Reebook', 'Apple'
+    ];
     return view('datos',
-                    [
-                        'nombre'=>$nombre,
-                        'marcas'=>$marcas
-                    ]
-            );
+        [
+            'nombre'=>$nombre,
+            'marcas'=>$marcas
+        ]
+    );
 });
