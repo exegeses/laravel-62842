@@ -44,6 +44,8 @@ Route::get('/datos', function ()
     );
 });
 
+//Route::metodo('/peticion', acción)
+
 Route::view('/inicio', 'inicio');
 Route::view('/formulario', 'formulario');
 Route::post('/proceso', function ()
@@ -56,4 +58,53 @@ Route::post('/proceso', function ()
     $nombre = request('nombre');
 
     return view('resultado', [ 'nombre'=>$nombre ]);
+});
+
+Route::get('/regions', function ()
+{
+    //obtenemnos listado de regiones
+    $regiones = DB::select(
+                    'SELECT idRegion, regNombre FROM regiones'
+                );
+    //pasamos listado a la vista
+    return view('regiones', [ 'regiones'=>$regiones ]);
+});
+Route::get('/region/create', function ()
+{
+    return view('regionCreate');
+});
+Route::post('/region/store', function ()
+{
+    //capturamos dato enviado por el form
+    $regNombre = request('regNombre');
+
+    try {
+        //insertar dato en tabla
+        DB::insert(
+            'INSERT INTO regiones
+                ( regNombre )
+                VALUE
+                ( :regNombre )',
+            [ $regNombre ]
+        );
+
+        return redirect('/regions')
+                    ->with(
+                        [
+                            'mensaje'=>'Región: '.$regNombre.' agregada correctamente',
+                            'css'=>'success'
+                        ]
+                    );
+    }
+    catch ( Throwable $th ){
+        // mensaje de ok/error
+        return redirect('/regions')
+            ->with(
+                [
+                    'mensaje'=>'No se pudo agregar la región: '.$regNombre,
+                    'css'=>'danger'
+                ]
+            );
+    }
+
 });

@@ -1,6 +1,6 @@
 @extends('layouts.plantilla')
 
     @section('contenido')
-        hola
+        contenido
 
     @endsection

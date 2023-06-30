@@ -8,7 +8,7 @@
                         <img src="/imagenes/m-iso.jpg" id="m-logo" alt="logo">
                     </a>
                 </li>
-                <li><a href="/regiones" class="nav-link px-3 text-white a-menu">Regiones</a></li>
+                <li><a href="/regions" class="nav-link px-3 text-white a-menu">Regiones</a></li>
                 <li><a href="/destinos" class="nav-link px-3 text-white a-menu">Destinos</a></li>
             </ul>
 
