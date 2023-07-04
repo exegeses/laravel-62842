@@ -88,6 +88,9 @@ Route::post('/region/store', function ()
             [ $regNombre ]
         );
 
+/*        $regiones = DB::select('SELECT * FROM regiones');
+        return view('/regions', ['regiones'=>$regiones]); */
+
         return redirect('/regions')
                     ->with(
                         [
@@ -103,6 +106,78 @@ Route::post('/region/store', function ()
                 [
                     'mensaje'=>'No se pudo agregar la región: '.$regNombre,
                     'css'=>'danger'
+                ]
+            );
+    }
+
+});
+Route::get('/region/edit/{id}', function ($id)
+{
+    /*$region = DB::select('
+                        SELECT idRegion, regNombre
+                        FROM regiones
+                        WHERE idRegion = :id
+                        ',
+                        [ $id ]
+    );*/
+    $region = DB::table('regiones')
+                    ->where('idRegion', $id)
+                    ->first();
+    //->toSQL();
+    return view('regionEdit', [ 'region'=>$region ]);
+});
+Route::post('/region/update', function ()
+{
+    //capturamos datos enviados por el form
+    $idRegion = request('idRegion');
+    $regNombre = request('regNombre');
+
+    try {
+        //modificamos
+        /*versión Raw SQL
+         * DB::update('UPDATE regiones
+                    SET regNombre = :regNombre
+                    WHERE idRegion = :idRegion',
+                    [ $regNombre, $idRegion ]
+        );*/
+        //Fluent Query Builder
+        DB::table('regiones')
+            ->where('idRegion', $idRegion)
+            ->update([ 'regNombre'=>$regNombre ]);
+        return redirect('/regions')
+                ->with(
+                    [
+                        'mensaje'=>'Región: '.$regNombre.' modificada correctamente.',
+                        'css'=>'success'
+                    ]
+                );
+    }
+    catch ( Throwable $th ){
+        // mensaje de ok/error
+        return redirect('/regions')
+            ->with(
+                [
+                    'mensaje'=>'No se pudo modificar la región: '.$regNombre,
+                    'css'=>'danger'
+                ]
+            );
+    }
+});
+Route::get('/region/delete/{id}', function ($id)
+{
+    //obtenemos datos de la región
+    $region = DB::table('regiones')
+                ->where('idRegion', $id)->first();
+    ### chequeamos destinos relacionados a la región
+    $check = DB::table('destinos')
+                ->where('idRegion', $id)->count();
+    //si hay destinos de esa región, NO se puede eliminar
+    if( $check ){
+        return redirect('/regions')
+            ->with(
+                [
+                    'mensaje'=>'No se puede eliminar la región: '.$region->regNombre.' porque tiene destinos relacionados',
+                    'css'=>'warning'
                 ]
             );
     }
