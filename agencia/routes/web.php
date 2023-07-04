@@ -181,5 +181,34 @@ Route::get('/region/delete/{id}', function ($id)
                 ]
             );
     }
+    return view('regionDelete', [ 'region'=>$region ]);
 
+});
+Route::post('/region/destroy', function ()
+{
+    //capturamos datos enviados por el form
+    $idRegion = request('idRegion');
+    $regNombre = request('regNombre');
+    try {
+        DB::table('regiones')
+            ->where('idRegion', $idRegion)
+            ->delete();
+        return redirect('/regions')
+            ->with(
+                [
+                    'mensaje'=>'Región: '.$regNombre.' eliminada correctamente.',
+                    'css'=>'success'
+                ]
+            );
+    }
+    catch ( Throwable $th ){
+        // mensaje de ok/error
+        return redirect('/regions')
+            ->with(
+                [
+                    'mensaje'=>'No se pudo eliminar la región: '.$regNombre,
+                    'css'=>'danger'
+                ]
+            );
+    }
 });
