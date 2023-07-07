@@ -278,3 +278,23 @@ Route::post('/destino/store', function ()
                 );
     }
 });
+Route::get('/destino/edit/{id}', function ($id)
+{
+    //obtenemos datos de un destino por si id
+    /*
+    $destino = DB::select('SELECT * FROM destinos
+                            WHERE idDestino = :id',
+                            [ $id ]);
+    */
+    $destino = DB::table('destinos')
+                    ->where('idDestino',$id)
+                    ->first();
+    //obtenemos listado de regiones
+    $regiones = DB::table('regiones')->get();
+    return view('destinoEdit',
+            [
+                'destino' =>$destino,
+                'regiones'=>$regiones
+            ]
+    );
+});
