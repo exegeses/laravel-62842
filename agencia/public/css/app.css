@@ -6,6 +6,12 @@ body{
     font-size: 1.11em;
     color: #444444;
 }
+h1{
+    margin-bottom: 32px;
+    border-left: 12px solid #d9d9d9;
+    padding-left: 12px;
+}
+
 /* header - nav */
 #m-logo{
     width: 30px;

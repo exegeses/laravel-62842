@@ -212,3 +212,69 @@ Route::post('/region/destroy', function ()
             );
     }
 });
+Route::get('/destinos', function ()
+{
+    //obtenemos listado de destinos
+    /*$destinos = DB::select(
+                    'SELECT idDestino, destNombre, regNombre, destPrecio
+                        FROM destinos d
+                        JOIN regiones r
+                          ON d.idRegion = r.idRegion'
+    );*/
+    $destinos = DB::table('destinos as d')
+                        ->select('idDestino', 'destNombre', 'regNombre', 'destPrecio')
+                        ->join('regiones as r', 'd.idRegion', '=', 'r.idRegion')
+                        ->get();
+    return view('destinos', [ 'destinos'=>$destinos ]);
+});
+
+Route::get('/destino/create', function ()
+{
+    //obtenemos listado de regiones
+    /*$regiones = DB::select('SELECT * FROM regiones');*/
+    $regiones = DB::table('regiones')->get();
+    return view('destinoCreate', [ 'regiones'=>$regiones ]);
+});
+Route::post('/destino/store', function ()
+{
+    $destNombre = request('destNombre');
+    $idRegion = request('idRegion');
+    $destPrecio = request('destPrecio');
+    $destAsientos = request('destAsientos');
+    $destDisponibles = request('destDisponibles');
+    try {
+        /* DB::insert('INSERT INTO destinos
+                        ( destNombre, idRegion, destPrecio, destAsientos, destDisponibles )
+                     VALUE
+                        ( :destNombre, :idRegion, :destPrecio, :destAsientos, :destDisponibles )',
+                        [ $destNombre, $idRegion, $destPrecio, $destAsientos, $destDisponibles ]
+                   );*/
+        DB::table('destinos')
+            ->insert(
+                [
+                   'destNombre' => $destNombre,
+                   'idRegion' => $idRegion,
+                   'destPrecio' => $destPrecio,
+                   'destAsientos' => $destAsientos,
+                   'destDisponibles' => $destDisponibles
+                ]
+            );
+        return redirect('/destinos')
+            ->with(
+                [
+                    'mensaje'=>'Destino: '.$destNombre.' agregado correctamente',
+                    'css'=>'success'
+                ]
+            );
+    }
+    catch ( Throwable $th )
+    {
+        return redirect('/destinos')
+                ->with(
+                    [
+                        'mensaje'=>'No se pudo agregar el destino: '.$destNombre,
+                        'css'=>'danger'
+                    ]
+                );
+    }
+});
