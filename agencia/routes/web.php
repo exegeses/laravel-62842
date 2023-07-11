@@ -298,3 +298,78 @@ Route::get('/destino/edit/{id}', function ($id)
             ]
     );
 });
+Route::post('/destino/update', function ()
+{
+    $destNombre = request('destNombre');
+    $idRegion = request('idRegion');
+    $destPrecio = request('destPrecio');
+    $destAsientos = request('destAsientos');
+    $destDisponibles = request('destDisponibles');
+    $idDestino = request('idDestino');
+    try {
+        DB::table('destinos')
+            ->where('idDestino', $idDestino)
+            ->update(
+                [
+                    'destNombre' => $destNombre,
+                    'idRegion' => $idRegion,
+                    'destPrecio' => $destPrecio,
+                    'destAsientos' => $destAsientos,
+                    'destDisponibles' => $destDisponibles
+                ]
+            );
+        return redirect('/destinos')
+            ->with(
+                [
+                    'mensaje'=>'Destino: '.$destNombre.' modificado correctamente',
+                    'css'=>'success'
+                ]
+            );
+    }
+    catch ( Throwable $th )
+    {
+        return redirect('/destinos')
+            ->with(
+                [
+                    'mensaje'=>'No se pudo modificar el destino: '.$destNombre,
+                    'css'=>'danger'
+                ]
+            );
+    }
+});
+Route::get('/destino/delete/{id}', function ($id)
+{
+    //obtenemos datos de un destino por su id
+    $destino = DB::table('destinos as d')
+                ->join('regiones as r','d.idRegion','=','r.idRegion')
+                ->where('idDestino',$id)
+                ->first();
+    return view('destinoDelete', [ 'destino'=>$destino ]);
+});
+Route::post('/destino/destroy', function ()
+{
+    $idDestino = request('idDestino');
+    $destNombre = request('destNombre');
+    try {
+        DB::table('destinos')
+                ->where('idDestino', $idDestino)
+                ->delete();
+        return redirect('/destinos')
+            ->with(
+                [
+                    'mensaje'=>'Destino: '.$destNombre.' eliminado correctamente',
+                    'css'=>'success'
+                ]
+            );
+    }
+    catch ( Throwable $th )
+    {
+        return redirect('/destinos')
+            ->with(
+                [
+                    'mensaje'=>'No se pudo eliminar el destino: '.$destNombre,
+                    'css'=>'danger'
+                ]
+            );
+    }
+});
