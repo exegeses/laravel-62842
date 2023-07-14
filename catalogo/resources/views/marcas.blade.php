@@ -25,23 +25,26 @@
 
 
     <ul class="list-group">
-
+    @foreach( $marcas as $marca )
         <li class="col-md-6 list-group-item list-group-item-action d-flex justify-content-between">
             <div class="col">
-                <span class="fs-4">Nombre marca</span>
+                <span class="fs-4">{{ $marca->mkNombre }}</span>
             </div>
             <div class="col text-end btn-group">
-                <a href="/marca/edit/id" class="btn btn-outline-secondary me-1">
+                <a href="/marca/edit/{{ $marca->idMarca }}" class="btn btn-outline-secondary me-1">
                     <i class="bi bi-pencil-square"></i>
                     Modificar
                 </a>
-                <a href="/marca/delete/id" class="btn btn-outline-secondary me-1">
+                <a href="/marca/delete/{{ $marca->idMarca }}" class="btn btn-outline-secondary me-1">
                     <i class="bi bi-trash"></i>
                     &nbsp;Eliminar&nbsp;
                 </a>
             </div>
         </li>
-
+    @endforeach
     </ul>
+
+    {{ $marcas->links() }}
+
 
 @endsection
