@@ -83,7 +83,7 @@ return [
     |
     */
 
-    'locale' => 'en',
+    'locale' => 'es',
 
     /*
     |--------------------------------------------------------------------------
@@ -159,7 +159,8 @@ return [
         /*
          * Package Service Providers...
          */
-
+        // mensajes en español
+        Laraveles\Spanish\SpanishServiceProvider::class,
         /*
          * Application Service Providers...
          */

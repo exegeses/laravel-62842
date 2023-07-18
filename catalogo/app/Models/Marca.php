@@ -9,4 +9,5 @@ class Marca extends Model
 {
     use HasFactory;
     //protected $table = 'elNombre';
+    public $timestamps = false;
 }
