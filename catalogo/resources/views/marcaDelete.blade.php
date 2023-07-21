@@ -5,17 +5,18 @@
 
     <div class="alert shadow text-danger col-6 mx-auto p-4">
 
+
         Se eliminará la marca:
         <span class="lead">
-                {{ $Marca->mkNombre }}
+                {{ $marca->mkNombre }}
             </span>
         <form action="/marca/destroy" method="post">
-            
-            @csrf
+        @method('delete')
+        @csrf
             <input type="hidden" name="mkNombre"
-                   value="{{ $Marca->mkNombre }}">
+                   value="{{ $marca->mkNombre }}">
             <input type="hidden" name="idMarca"
-                   value="{{ $Marca->idMarca }}">
+                   value="{{ $marca->idMarca }}">
             <button class="btn btn-danger btn-block my-3">
                 Confirmar baja
             </button>
@@ -24,6 +25,12 @@
             </a>
         </form>
     </div>
-
+    <script>
+        Swal.fire(
+            '¡Advertencia!',
+            'Si pulsa el botón "Confirmar baja", se eliminará la marca seleccionada',
+            'warning'
+        );
+    </script>
 
 @endsection
