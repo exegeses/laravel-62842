@@ -40,12 +40,40 @@ class ProductoController extends Controller
             ]);
     }
 
+    private function validarForm( Request $request )
+    {
+        $request->validate(
+            [
+                'prdNombre'=>'required|unique:productos,prdNombre|min:2|max:75',
+                'prdPrecio'=>'required|numeric|min:0|max:999999.99',
+                'idMarca'=>'required',
+                'idCategoria'=>'required',
+                'prdDescripcion'=>'max:600',
+                'prdImagen'=>'mimes:jpg,jpeg,png,gif,svg,webp|max:1024'
+            ],
+            [
+                'prdNombre.required'=>'El campo "Nombre del producto" es obligatorio.',
+                'prdNombre.unique'=>'El "Nombre del producto" ya existe.',
+                'prdNombre.min'=>'El campo "Nombre del producto" debe tener como mínimo 2 caractéres.',
+                'prdNombre.max'=>'El campo "Nombre" debe tener 75 caractéres como máximo.',
+                'prdPrecio.required'=>'Complete el campo Precio.',
+                'prdPrecio.numeric'=>'Complete el campo Precio con un número.',
+                'prdPrecio.min'=>'Complete el campo Precio con un número mayor a 0.',
+                'prdPrecio.max'=>'El precio m´´aximo no puede superar 999999.99',
+                'idMarca.required'=>'Seleccione una marca.',
+                'idCategoria.required'=>'Seleccione una categoría.',
+                'prdDescripcion.max'=>'Complete el campo Descripción con 600 caractéres como máxino.',
+                'prdImagen.mimes'=>'Debe ser una imagen.',
+                'prdImagen.max'=>'Debe ser una imagen de 1MB como máximo.'
+            ]
+        );
+    }
     /**
      * Store a newly created resource in storage.
      */
     public function store(Request $request)
     {
-        //
+        //validación
     }
 
     /**
