@@ -5,8 +5,11 @@ namespace App\Http\Controllers;
 use App\Models\Marca;
 use App\Models\Categoria;
 use App\Models\Producto;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\View\View;
+use Symfony\Component\HttpFoundation\File\Exception\FileException;
+
 
 class ProductoController extends Controller
 {
@@ -59,7 +62,7 @@ class ProductoController extends Controller
                 'prdPrecio.required'=>'Complete el campo Precio.',
                 'prdPrecio.numeric'=>'Complete el campo Precio con un número.',
                 'prdPrecio.min'=>'Complete el campo Precio con un número mayor a 0.',
-                'prdPrecio.max'=>'El precio m´´aximo no puede superar 999999.99',
+                'prdPrecio.max'=>'El precio máximo no puede superar 999999.99',
                 'idMarca.required'=>'Seleccione una marca.',
                 'idCategoria.required'=>'Seleccione una categoría.',
                 'prdDescripcion.max'=>'Complete el campo Descripción con 600 caractéres como máxino.',
@@ -68,12 +71,76 @@ class ProductoController extends Controller
             ]
         );
     }
+
+    private function subirImagen( Request $request ) : string
+    {
+        //si no enviaron imagen
+        $prdImagen = 'noDisponible.png';
+
+        //si enviaron imagen
+        if( $request->file('prdImagen') ){
+            $file = $request->file('prdImagen');
+            //renombramos archivo
+            $time = time();
+            $ext = $file->getClientOriginalExtension();
+            $prdImagen = $time.'.'.$ext;
+            //subir en:  /imagenes/productos
+            try {
+                $file->move( public_path('/imagenes/productos/'), $prdImagen );
+            }
+            catch ( FileException $fe ){
+                return false;
+            }
+        }
+        return $prdImagen;
+    }
+
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(Request $request) : RedirectResponse
     {
         //validación
+        $this->validarForm($request);
+        $prdNombre = $request->prdNombre;
+        $prdPrecio = $request->prdPrecio;
+        $idMarca = $request->idMarca;
+        $idCategoria = $request->idCategoria;
+        $prdDescripcion = $request->prdDescripcion;
+        $prdImagen = $this->subirImagen( $request );
+        if( $prdImagen == false ){
+            return redirect('/productos')
+                ->with([
+                    'mensaje'=>'No se pudo subir la imagen',
+                    'css'=>'danger'
+                ]);
+        }
+        try {
+            $producto = new Producto;
+            //asignamos atributos
+            $producto->prdNombre = $prdNombre;
+            $producto->prdPrecio = $prdPrecio;
+            $producto->idMarca = $idMarca;
+            $producto->idCategoria = $idCategoria;
+            $producto->prdDescripcion = $prdDescripcion;
+            $producto->prdImagen = $prdImagen;
+            //almacenamos en tabla productos
+            $producto->save();
+            return redirect('/productos')
+                ->with(
+                    [
+                        'mensaje'=>'Producto: '.$prdNombre.' agregado corectamente',
+                        'css'=>'success'
+                    ]
+                );
+        }
+        catch ( \Throwable $th ){
+            return redirect('/productos')
+                ->with([
+                    'mensaje'=>'No se pudo agregar el producto: '.$prdNombre,
+                    'css'=>'danger'
+                ]);
+        }
     }
 
     /**

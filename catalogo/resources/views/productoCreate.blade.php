@@ -11,6 +11,9 @@
                 <input type="text" name="prdNombre"
                        value="{{ old('prdNombre') }}"
                        class="form-control" id="prdNombre">
+                @if ($errors->has('prdNombre'))
+                    <span class="fs-6 text-danger">{{ $errors->first('prdNombre') }}</span>
+                @endif
             </div>
 
             <label for="prdPrecio">Precio del Producto</label>
@@ -21,6 +24,9 @@
                 <input type="number" name="prdPrecio"
                        value="{{ old('prdPrecio') }}"
                        class="form-control" id="prdPrecio" min="0" step="0.01">
+                @if ($errors->has('prdPrecio'))
+                    <span class="mt-0 fs-6 text-danger">{{ $errors->first('prdPrecio') }}</span>
+                @endif
             </div>
 
             <div class="form-group mb-4">
@@ -31,6 +37,9 @@
                     <option @selected( old('idMarca')==$marca->idMarca ) value="{{ $marca->idMarca }}">{{ $marca->mkNombre }}</option>
             @endforeach
                 </select>
+                @if ($errors->has('idMarca'))
+                    <span class="fs-6 text-danger">{{ $errors->first('idMarca') }}</span>
+                @endif
             </div>
 
             <div class="form-group mb-4">
@@ -41,17 +50,26 @@
                     <option @selected( old('idCategoria')==$categoria->idCategoria ) value="{{ $categoria->idCategoria }}">{{ $categoria->catNombre }}</option>
             @endforeach
                 </select>
+                @if ($errors->has('idCategoria'))
+                    <span class="fs-6 text-danger">{{ $errors->first('idCategoria') }}</span>
+                @endif
             </div>
 
             <div class="form-group mb-4">
                 <label for="prdDescripcion">Descripción del Producto</label>
                 <textarea name="prdDescripcion" class="form-control"
                           id="prdDescripcion">{{ old('prdDescripcion') }}</textarea>
+                @if ($errors->has('prdDescripcion'))
+                    <span class="mt-0 fs-6 text-danger">{{ $errors->first('prdDescripcion') }}</span>
+                @endif
             </div>
 
             <div class="custom-file mt-1 mb-4">
                 <input type="file" name="prdImagen" class="custom-file-input" id="customFileLang" lang="es">
                 <label class="custom-file-label" for="customFileLang" data-browse="Buscar en disco">Seleccionar Archivo: </label>
+                @if ($errors->has('prdImagen'))
+                    <span class="mt-0 fs-6 text-danger">{{ $errors->first('prdImagen') }}</span>
+                @endif
             </div>
 
             <button class="btn btn-dark mr-3 px-4">Agregar producto</button>
