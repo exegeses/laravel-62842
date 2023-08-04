@@ -43,11 +43,11 @@ class ProductoController extends Controller
             ]);
     }
 
-    private function validarForm( Request $request )
+    private function validarForm( Request $request, $id = null )
     {
         $request->validate(
             [
-                'prdNombre'=>'required|unique:productos,prdNombre|min:2|max:75',
+                'prdNombre'=>'required|unique:productos,prdNombre,'.$id.',idProducto|min:2|max:75',
                 'prdPrecio'=>'required|numeric|min:0|max:999999.99',
                 'idMarca'=>'required',
                 'idCategoria'=>'required',
@@ -154,17 +154,30 @@ class ProductoController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(Producto $producto)
+    public function edit( string $id ) : View
     {
-        //
+        //obtenemos listado de marcas y de categorías
+        $marcas = Marca::all();
+        $categorias = Categoria::all();
+        //obtenemos datos de producto filtrado por su id
+        $producto = Producto::find( $id );
+        return view('productoEdit',[
+            'marcas'=>$marcas,
+            'categorias'=>$categorias,
+            'producto'=>$producto
+        ]);
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Producto $producto)
+    public function update(Request $request)
     {
-        //
+        $prdNombre = $request->prdNombre;
+        //validación
+        $this->validarForm($request, $request->idProducto);
+
+        return 'pasó validación';
     }
 
     /**
