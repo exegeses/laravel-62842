@@ -212,11 +212,41 @@ class ProductoController extends Controller
 
     }
 
+    public function delete( string $id ) : View
+    {
+        //obtenemos datos de producto por su id
+        $producto = Producto::with([ 'getMarca', 'getCategoria' ])
+                            ->find( $id );
+        return view('productoDelete',
+                [
+                    'producto'=>$producto
+                ]
+        );
+    }
+
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Producto $producto)
+    public function destroy( Request $request ) : RedirectResponse
     {
-        //
+        $prdNombre = $request->prdNombre;
+        $idProducto = $request->idProducto;
+        try {
+            Producto::destroy( $idProducto );
+            return redirect('/productos')
+                ->with(
+                    [
+                        'mensaje'=>'Producto: '.$prdNombre.' eliminado corectamente',
+                        'css'=>'success'
+                    ]
+                );
+        }
+        catch ( \Throwable $th ){
+            return redirect('/productos')
+                ->with([
+                    'mensaje'=>'No se pudo eliminar el producto: '.$prdNombre,
+                    'css'=>'danger'
+                ]);
+        }
     }
 }

@@ -28,3 +28,5 @@ Route::get('/producto/create', [ ProductoController::class, 'create' ]);
 Route::post('/producto/store', [ ProductoController::class, 'store' ]);
 Route::get('/producto/edit/{id}', [ ProductoController::class, 'edit' ]);
 Route::patch('/producto/update', [ ProductoController::class, 'update' ]);
+Route::get('/producto/delete/{id}', [ ProductoController::class, 'delete' ]);
+Route::delete('/producto/destroy', [ ProductoController::class, 'destroy' ]);
