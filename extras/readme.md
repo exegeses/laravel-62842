@@ -33,9 +33,9 @@
 > cuando querramos correr el proyecto (o las migraciones) nos preguntará si queremos crear las base de datos 
 > y laravel la creará por nosotros
 >    WARN  The database 'nombreBase' does not exist on the 'mysql' connection.
->  ┌ Would you like to create it? ─┐
-   │ Yes                           │
-   └─────────────────────────────┘
+>  ┌ Would you like to create it? ─┐  
+   │ Yes                           │  
+   └─────────────────────────────┘  
 
 
 - [ ] Configuramos el archivo .env
@@ -58,19 +58,19 @@
 > Este comando genera las vistas de autenticación, las routes, los controllers, y otros recursos de la aplicación.
 > El comando breeze:install te solicitará que selecciones tu stack preferido de frontend y framework de testing:
 
-┌ Which Breeze stack would you like to install? ──┐
-│ › ● Blade                                       │
-│   ○ React with Inertia                          │
-│   ○ Vue with Inertia                            │
-│   ○ API only                                    │
-└──────────────────────────────────────────────┘
-┌ Would you like dark mode support? ─────────────┐
-│ ● Yes / ○ No                                    │
-└──────────────────────────────────────────────┘
-┌ Which testing framework do you prefer? ────────┐
-│   ○ PHPUnit                                     │
-│ › ● Pest                                        │
-└──────────────────────────────────────────────┘
+┌ Which Breeze stack would you like to install? ──┐  
+│ › ● Blade                                       │  
+│   ○ React with Inertia                          │  
+│   ○ Vue with Inertia                            │  
+│   ○ API only                                    │  
+└──────────────────────────────────────────────┘  
+┌ Would you like dark mode support? ─────────────┐  
+│ ● Yes / ○ No                                    │  
+└──────────────────────────────────────────────┘  
+┌ Which testing framework do you prefer? ────────┐  
+│   ○ PHPUnit                                     │  
+│ › ● Pest                                        │  
+└──────────────────────────────────────────────┘  
 
 > Tnstalación finalizada. 
 > INFO  Breeze scaffolding installed successfully.
