@@ -12,8 +12,24 @@ Route::view('/destino', 'destino')
             ->name('destino');
 
 
-
-
+/*################*/
+### CRUD de marcas
+use App\Http\Controllers\MarcaController;
+Route::get('/marcas', [ MarcaController::class, 'index' ])
+            ->middleware(['auth'])
+            ->name('marcas');
+Route::get('/marca/create', [ MarcaController::class, 'create' ])
+            ->middleware(['auth']);
+Route::post('/marca/store', [ MarcaController::class, 'store' ])
+            ->middleware(['auth']);
+Route::get('/marca/edit/{marca}', [ MarcaController::class, 'edit' ])
+            ->middleware(['auth']);
+Route::put('/marca/update/{marca}', [ MarcaController::class, 'update' ])
+            ->middleware(['auth']);
+Route::get('/marca/delete/{marca}', [ MarcaController::class, 'delete' ])
+            ->middleware(['auth']);
+Route::delete('/marca/destroy/{marca}', [ MarcaController::class, 'destroy' ])
+            ->middleware(['auth']);
 
 
 Route::get('/', function () {
